@@ -161,5 +161,6 @@ cython_debug/
 
 
 
-model/
-data/
+zoo_models/
+zoo_data/
+.vscode/

@@ -2,7 +2,7 @@ import ray
 from ray import serve
 from starlette.requests import Request
 
-from clip import ClipModel
+from ray_model_zoo.clip.model import ClipModel
 
 @serve.deployment(name='clip', route_prefix="/clip")
 class ClipModelDeployment:
