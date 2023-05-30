@@ -1,12 +1,11 @@
+from src.models.clip import ClipModel
 import unittest
 import sys
 
 sys.path.append('/workspace/ray_model_zoo/')
 
-from src.models.clip import ClipModel
 
-
-## 获取测试图片
+# 获取测试图片
 # wget https://raw.githubusercontent.com/OFA-Sys/Chinese-CLIP/master/examples/pokemon.jpeg
 
 class ClipModelTest(unittest.TestCase):
