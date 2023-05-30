@@ -165,3 +165,4 @@ zoo_models/
 zoo_data/
 .vscode/
 .idea/
+.gitpod.yml

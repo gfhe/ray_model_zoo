@@ -13,7 +13,7 @@ async def homepage(request):
 
 # 使用 TestClient 进行测试
 client = TestClient(app)
-response = client.post("/", content=open("./pokemon.jpeg", "rb").read())
+response = client.post("/", content=open("../../src/ray_model_zoo/models/clip/pokemon.jpeg", "rb").read())
 print(response.status_code)
 assert response.status_code == 200
 assert response.json() == {"message": "Hello, world!"}
