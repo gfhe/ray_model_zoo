@@ -1,5 +1,5 @@
-from ray_model_zoo.clip import ClipModel
 import unittest
+from src.ray_model_zoo.clip import ClipModel
 
 ## 获取测试图片
 # wget https://raw.githubusercontent.com/OFA-Sys/Chinese-CLIP/master/examples/pokemon.jpeg
@@ -7,6 +7,7 @@ import unittest
 class ClipModelTest(unittest.TestCase):
 
     def __init__(self):
+        super().__init__()
         self.clip = ClipModel()
     
     def test_image(self):

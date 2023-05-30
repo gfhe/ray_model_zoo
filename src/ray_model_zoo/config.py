@@ -1,7 +1,7 @@
 import configparser
 
-MODEL_DIR = "zoo_models"
-DATA_DIR = "zoo_data"
+MODEL_DIR = "model_dir"
+DATA_DIR = "data_dir"
 
 
 config = configparser.ConfigParser()
