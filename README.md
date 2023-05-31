@@ -33,7 +33,7 @@ TASK：特征提取[图、文]
 BACKEND：pytorch、triton
 
 
-### 
+### ...
 
 
 
@@ -44,3 +44,4 @@ BACKEND：pytorch、triton
 3. [ ] 小语种翻译
 4. [ ] 情感分析
 5. [ ] OCR
+6. [ ] LLAMA
