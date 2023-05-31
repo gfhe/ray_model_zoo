@@ -11,4 +11,4 @@ DATA_DIR = "data_dir"
 # model_dir = config.get('paths', MODEL_DIR)
 
 data_dir = '/workspace/ray_model_zoo/data'
-model_dir = '/workspace/ray_model_zoo/zoo_models'
+model_dir = '/workspace/ray_model_zoo/models'

@@ -1,8 +1,10 @@
-from src.models.clip import ClipModel
 import unittest
-import sys
+import os, sys
 
-sys.path.append('/workspace/ray_model_zoo/')
+# 将 src 目录加入 sys.path 中
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..", "src")))
+from src.models.clip import ClipModel
+from src.config import data_dir
 
 
 # 获取测试图片
@@ -16,7 +18,7 @@ class ClipModelTest(unittest.TestCase):
         cls.clip = ClipModel()
 
     def test_image(self):
-        with open('./pokemon.jpeg', 'rb') as f:
+        with open(data_dir+'/pokemon.jpeg', 'rb') as f:
             embedding = self.clip.encode_image(f.read())
             print(embedding.shape)
 
