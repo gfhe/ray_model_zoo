@@ -1,9 +1,5 @@
 import unittest
-import os, sys
-
-# 将 src 目录加入 sys.path 中
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..", "zoo")))
-from zoo.model.clip import ClipModel
+from zoo.model import ClipModel
 from zoo.config import data_dir
 
 
@@ -18,7 +14,7 @@ class ClipModelTest(unittest.TestCase):
         cls.clip = ClipModel()
 
     def test_image(self):
-        with open(data_dir+'/pokemon.jpeg', 'rb') as f:
+        with open(data_dir + '/pokemon.jpeg', 'rb') as f:
             embedding = self.clip.encode_image(f.read())
             print(embedding.shape)
 

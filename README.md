@@ -16,11 +16,11 @@
         1. 默认的模型的ray serve 封装：`ray_serve.py`
         2. 不同类型的backend 模型的ray serve 封装：`ray_serve_[backend_type].py.py`，例如 `ray_serve_torch.py`, `ray_serve_triton.py`:
 2. 在`src/models/base.py` 中增加模型的名字和模型的不同参数级别；
-
+3. 直接运行zoo中的代码：例如运行 `zoo/model/clip/model.py`, 使用 `python -m zoo.model.clip.model`
 ### 模型单元测试
 
 1. 在 `tests`中增加模型的测试类，包括模型、ray serve、压力测试三个部分。
-2. 测试方法； 在工程**根目录**下，运行：`python -m unittest tests/clip/test_model.py` 
+2. 测试方法； 在工程**根目录**下，运行：`python -m unittest test/clip/test_model.py` 或者 `python -m unittest test.clip.test_model`
 
 > 1. 压力测试：给出具体的**硬件配置**限制。
 > 2. 压力测试：对比 ray serve 封装前后的性能。

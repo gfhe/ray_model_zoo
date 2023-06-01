@@ -37,7 +37,7 @@ class Model:
         print(f"model_dir={self.model_dir}, device={self.device}")
 
     def available_models(self):
-        self.model_params(self.model_name)
+        self.model_params()
 
     def get_model_dir(self) -> str:
         assert self.model_name in models
