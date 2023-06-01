@@ -2,7 +2,7 @@ from cn_clip.clip import load_from_name
 
 # 封装 CN Clip 模型
 from PIL import Image
-from models import Model, CN_CLIP
+from zoo.model.base import Model, CN_CLIP
 
 
 class ClipModel(Model):

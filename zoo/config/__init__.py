@@ -1,3 +1,4 @@
+
 import configparser
 
 MODEL_DIR = "model_dir"
@@ -12,3 +13,5 @@ DATA_DIR = "data_dir"
 
 data_dir = '/workspace/ray_model_zoo/data'
 model_dir = '/workspace/ray_model_zoo/models'
+
+__all__=['data_dir', 'model_dir']

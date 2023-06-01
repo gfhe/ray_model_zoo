@@ -2,9 +2,9 @@ import unittest
 import os, sys
 
 # 将 src 目录加入 sys.path 中
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..", "src")))
-from src.models.clip import ClipModel
-from src.config import data_dir
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..", "zoo")))
+from zoo.model.clip import ClipModel
+from zoo.config import data_dir
 
 
 # 获取测试图片

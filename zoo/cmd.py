@@ -1,6 +1,6 @@
 import click
 
-from models import models
+from zoo.models import models
 
 """
 click 库：https://click.palletsprojects.com/en/8.1.x/quickstart/#screencast-and-examples

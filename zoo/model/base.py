@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from config import model_dir
+from zoo.config import model_dir
 
 import torch
 
