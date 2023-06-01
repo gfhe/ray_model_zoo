@@ -29,6 +29,10 @@
 
 ### 提交 ray job
 
+```shell
+ray job submit --working-dir ./zoo --address  http://10.208.63.33:32107 -- python zoo/model/clip/ray_serve.py
+```
+
 ## 开发规范
 
 配置文件为`zoo/config/cofig.ini`，定义了模型和数据的存储路径
