@@ -1,6 +1,4 @@
-from pathlib import Path
-
-from zoo.config import model_dir
+from abc import ABC, abstractmethod
 
 import torch
 
@@ -25,30 +23,46 @@ def cn_clip_models():
     return available_models()
 
 
-class Model:
+class Model(ABC):
     def __init__(self, model_name, model_param=None):
         self.model_name = model_name
-        self.model_param = model_param
-        # 模型存储地址
-        self.model_dir = self.get_model_dir()
+        self.model_param = model_param if model_param is not None else self.default_model_param_name()
 
         # 模型使用的硬件
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"model_dir={self.model_dir}, device={self.device}")
+        print(f"model_name={self.model_name}, "
+              f"model_param={self.model_param}, "
+              f"model_dir={self.model_path()}, "
+              f"device={self.device}")
 
-    def available_models(self):
-        self.model_params()
+    @abstractmethod
+    def model_load_name(self) -> str:
+        """
+        框架加载模型时，使用的模型名字
+        """
+        raise NotImplementedError
 
-    def get_model_dir(self) -> str:
-        assert self.model_name in models
-        if self.model_param is None:
-            self.model_param = self.model_default_param()
-        return Path(model_dir) / self.model_name / self.model_param
+    @abstractmethod
+    def model_path(self) -> str:
+        """
+        模型存储路径（,相对于model 文件夹）
 
-    def model_default_param(self) -> str:
-        assert self.model_name in models
-        model_param_list = self.model_params()
-        return model_param_list[0]
+        :ref:`zoo.config.model_dir`
+        """
+        raise NotImplementedError
 
-    def model_params(self) -> list:
+    @abstractmethod
+    def available_models(self) -> list:
+        """
+        模型的不同参数级别名字列表
+        """
         return [p for p, _ in models.get(self.model_name).items()]
+
+    def default_model_param_name(self) -> str:
+        """
+        默认的模型名字：模型参数列表的第一个
+        """
+
+        assert self.model_name in models
+        model_param_list = self.available_models()
+        return model_param_list[0]

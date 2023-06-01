@@ -9,8 +9,11 @@ class ClipModelServe:
     def __init__(self):
         self.model = ClipModel()
 
-    def encode_image(self, image_bytes):
-        return self.model.encode_image(image_bytes)
+    def encode_image(self, image):
+        return self.model.encode_image(image)
+
+    def encode_text(self, text):
+        return self.model.encode_text(text)
 
     async def __call__(self, request: Request):
         """

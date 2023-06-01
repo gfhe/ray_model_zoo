@@ -1,4 +1,6 @@
 import unittest
+from pathlib import Path
+
 from zoo.model import ClipModel
 from zoo.config import data_dir
 
@@ -14,9 +16,18 @@ class ClipModelTest(unittest.TestCase):
         cls.clip = ClipModel()
 
     def test_image(self):
-        with open(data_dir + '/pokemon.jpeg', 'rb') as f:
-            embedding = self.clip.encode_image(f.read())
-            print(embedding.shape)
+        images_bytes = []
+        for i in range(2):
+            with open(Path(data_dir) / 'pokemon.jpeg', 'rb') as f:
+                images_bytes.append(f.read())
+        embedding = self.clip.encode_image(images_bytes)
+        print(embedding.shape)
+        self.assertEqual(embedding.shape[1], 1024)
+
+    def test_text(self):
+        embedding = self.clip.encode_text(["这是一只皮卡丘", "hello"])
+        print(embedding.shape)
+        self.assertEqual(embedding.shape[1], 1024)
 
 
 if __name__ == '__main__':
