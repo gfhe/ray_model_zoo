@@ -1,3 +1,5 @@
 ray[serve]==2.4.0
 cn_clip
 click
+fastapi
+python-multipart

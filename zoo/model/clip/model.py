@@ -1,11 +1,12 @@
 from pathlib import Path
-from PIL import Image
+
 import cn_clip.clip as clip
+import torch
+from PIL import Image
 from cn_clip.clip import load_from_name, available_models
 
-from zoo.model.base import Model, CN_CLIP
 from zoo.config import model_dir
-import torch
+from zoo.model.base import Model, CN_CLIP
 
 
 class ClipModel(Model):
@@ -19,6 +20,8 @@ class ClipModel(Model):
 
     def model_path(self) -> str:
         return Path(model_dir) / self.model_name
+        # TODO: online deploy
+        # return "/home/ray/tiny_clip/model"
 
     def available_models(self) -> list:
         return available_models()

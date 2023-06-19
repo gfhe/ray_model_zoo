@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import torch
+from fastapi import FastAPI
 
 CN_CLIP = "cn_clip"
 
@@ -66,3 +67,11 @@ class Model(ABC):
         assert self.model_name in models
         model_param_list = self.available_models()
         return model_param_list[0]
+
+
+class Serve:
+    def health(self):
+        """
+        暴露服务健康的endpoint， 每个serve 自己实现。
+        """
+        return {"status": "ok"}
