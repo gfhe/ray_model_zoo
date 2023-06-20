@@ -11,7 +11,8 @@ from zoo.model.paddlenlp_taskflow import PaddleNLPTaskflowModel
 from zoo.model.base import Serve
 
 app = FastAPI()
-parser = argparse.ArgumentParser(description='PaddleNLP情感分析')
+parser = argparse.ArgumentParser(description='PaddleNLP一键预测')
+parser.add_argument('-t', '--task', help='任务名称，默认为sentiment_analysis', default='sentiment_analysis')
 parser.add_argument('-m', '--model', help='模型名称，默认使用bilstm', default='bilstm')
 parser.add_argument('-p', '--path', help='模型参数保存位置')
 args = parser.parse_args()
@@ -30,8 +31,8 @@ args = parser.parse_args()
 @serve.ingress(app)
 class PaddleNLPTaskflowServe(Serve):
 
-    def __init__(self, model, param):
-        self.ray_model = PaddleNLPTaskflowModel(model=model, param=param)
+    def __init__(self, task, model, param):
+        self.ray_model = PaddleNLPTaskflowModel(task=task, model=model, param=param)
 
     @app.post("/")
     async def senta(self, request: Request):
@@ -43,7 +44,7 @@ class PaddleNLPTaskflowServe(Serve):
         return "ok"
 
 
-paddle_taskflow = PaddleNLPTaskflowServe.bind(model=args.model, param=args.path)
+paddle_taskflow = PaddleNLPTaskflowServe.bind(task=args.task, model=args.model, param=args.path)
 
 if __name__ == "__main__":
     handle = serve.run(paddle_taskflow, name="senta", host='0.0.0.0', port=8000)

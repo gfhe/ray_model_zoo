@@ -26,9 +26,9 @@ class PaddleNLPTaskflowModel(Model):
     def model_load_name(self) -> str:
         return self.model_param
 
-    def __init__(self, model, param):
+    def __init__(self, task, model, param):
         super().__init__(model, param)
-        self.model = Taskflow('sentiment_analysis', model=model, task_path=param)
+        self.model = Taskflow(task=task, model=model, task_path=param)
         logger.info(f"PaddleNLP model deployed with model {model}")
 
     def forward(self, texts: list):
