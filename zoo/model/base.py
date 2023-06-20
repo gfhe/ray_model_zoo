@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
+import logging
 
-import torch
-from fastapi import FastAPI
+logger = logging.getLogger(__name__)
 
 CN_CLIP = "cn_clip"
 
@@ -16,12 +16,12 @@ models = {
 }
 
 
-def cn_clip_models():
-    """
-    clip 模型支持的不同参数级别的模型
-    """
-    from cn_clip.clip import available_models
-    return available_models()
+# def cn_clip_models():
+#     """
+#     clip 模型支持的不同参数级别的模型
+#     """
+#     from cn_clip.clip import available_models
+#     return available_models()
 
 
 class Model(ABC):
@@ -30,11 +30,10 @@ class Model(ABC):
         self.model_param = model_param if model_param is not None else self.default_model_param_name()
 
         # 模型使用的硬件
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        print(f"model_name={self.model_name}, "
-              f"model_param={self.model_param}, "
-              f"model_dir={self.model_path()}, "
-              f"device={self.device}")
+        # self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        logger.info(f"model_name={self.model_name}, "
+                    f"model_param={self.model_param}, "
+                    f"model_dir={self.model_path()}, ")
 
     @abstractmethod
     def model_load_name(self) -> str:

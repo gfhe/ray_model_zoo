@@ -161,7 +161,6 @@ cython_debug/
 
 
 data/
-model/
 models/
 zoo_models/
 zoo_data/

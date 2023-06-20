@@ -7,7 +7,9 @@
 以clip模型为例。
 
 1. 获取 deployment 的route信息：`http://ip:8000/-/routes`
-2.
+
+情感分析
+1. 在model_zoo根目录下，运行python zoo/model/paddlenlp_taskflow/ray_serve.py -m \<model\> -p \<path-to-model\>
 
 
 ## 支持的模型
