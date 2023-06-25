@@ -13,7 +13,6 @@ from zoo.model.base import Serve
 app = FastAPI()
 parser = argparse.ArgumentParser(description='PaddleNLP一键预测')
 parser.add_argument('-m', '--model', help='模型名称，默认使用PP-OCRv3', default='PP-OCRv3')
-parser.add_argument('-p', '--path', help='模型参数保存位置')
 args = parser.parse_args()
 
 @serve.deployment(route_prefix="/ocr",
@@ -29,21 +28,20 @@ args = parser.parse_args()
                   )
 @serve.ingress(app)
 class PaddleOCRServe(Serve):
-    def __init__(self, model, param):
-        self.ray_model = PaddleOCRModel(model=model, param=param)
+    def __init__(self, model_name):
+        self.ray_model = PaddleOCRModel(model_name=model_name)
         print(os.getcwd())
 
     @app.post("/")
     async def ocr(self, request: Request):
         data = await request.json()
-        return self.ray_model.forward(data)
+        return self.ray_model(data)
 
     @app.get("/health")
     def health(self):
         return "ok"
 
 
-paddle_ocr = PaddleOCRServe.bind(model=args.model, param=args.path)
-
 if __name__ == "__main__":
+    paddle_ocr = PaddleOCRServe.bind(model=args.model, param=args.path)
     handle = serve.run(paddle_ocr, name="ocr", host='0.0.0.0', port=8000)

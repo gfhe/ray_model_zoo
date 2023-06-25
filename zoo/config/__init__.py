@@ -1,9 +1,9 @@
 import configparser
 from pathlib import Path
 
-MODEL_DIR = "model"
+MODEL_DIR = "models"
 DATA_DIR = "data"
-ROOT_DIR = '/Users/hgf/Projects/py/ray_model_zoo'
+ROOT_DIR = 'D:\Workspace\model_zoo'
 
 # config = configparser.ConfigParser()
 # config.read('config.ini')
