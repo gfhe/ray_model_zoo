@@ -6,11 +6,7 @@ sys.path.append('D:\Workspace\model_zoo')
 print(sys.path)
 
 from zoo.model.paddlenlp import PaddleNLPModel
-from zoo.config import data_dir
 
-
-# 获取测试图片
-# wget https://raw.githubusercontent.com/OFA-Sys/Chinese-CLIP/master/examples/pokemon.jpeg
 
 class ModelTest(unittest.TestCase):
 
@@ -21,7 +17,7 @@ class ModelTest(unittest.TestCase):
 
     def test_senta(self):
         ret = self.model('这家餐厅太棒了，很好吃！')
-        print(ret)
+        assert ret[0]['label'] == 'positive'
 
 
 if __name__ == '__main__':

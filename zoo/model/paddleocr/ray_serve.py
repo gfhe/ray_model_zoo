@@ -1,8 +1,4 @@
 import json
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.realpath(__name__)))
-import argparse
 
 from ray import serve
 from fastapi import FastAPI, Request
@@ -10,10 +6,8 @@ from fastapi import FastAPI, Request
 from zoo.model.paddleocr import PaddleOCRModel
 from zoo.model.base import Serve
 
+
 app = FastAPI()
-parser = argparse.ArgumentParser(description='PaddleNLP一键预测')
-parser.add_argument('-m', '--model', help='模型名称，默认使用PP-OCRv3', default='PP-OCRv3')
-args = parser.parse_args()
 
 @serve.deployment(route_prefix="/ocr",
                   autoscaling_config={
@@ -28,9 +22,8 @@ args = parser.parse_args()
                   )
 @serve.ingress(app)
 class PaddleOCRServe(Serve):
-    def __init__(self, model_name):
+    def __init__(self, model_name='PP-OCRv3'):
         self.ray_model = PaddleOCRModel(model_name=model_name)
-        print(os.getcwd())
 
     @app.post("/")
     async def ocr(self, request: Request):
@@ -40,8 +33,3 @@ class PaddleOCRServe(Serve):
     @app.get("/health")
     def health(self):
         return "ok"
-
-
-if __name__ == "__main__":
-    paddle_ocr = PaddleOCRServe.bind(model=args.model, param=args.path)
-    handle = serve.run(paddle_ocr, name="ocr", host='0.0.0.0', port=8000)

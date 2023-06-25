@@ -20,9 +20,10 @@ class PaddleOCRModel(Model):
     """
     def __init__(self, model_name):
         super().__init__(task="OCR", model_lib=PADDLE_OCR, model_name=model_name)
-        self.model = PaddleOCR(det_model_dir=os.path.join(self.model_dir, 'det'), 
-                               rec_model_dir=os.path.join(self.model_dir, 'rec'), 
-                               cls_model_dir=os.path.join(self.model_dir, 'cls'))
+        self.model = PaddleOCR(ocr_version=model_name, 
+                               det_model_dir=os.path.join(self.model_path, 'det'), 
+                               rec_model_dir=os.path.join(self.model_path, 'rec'), 
+                               cls_model_dir=os.path.join(self.model_path, 'cls'))
         logger.info(f"PaddleOCR model deployed.")
 
     def __call__(self, image):
