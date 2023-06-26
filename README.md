@@ -15,7 +15,19 @@
 TASK：特征提取[图、文]
 BACKEND：pytorch、triton
 
-### ...
+### 情感分析
+
+TASK: 分析中英文文本的情感倾向（正面/负面）
+
+BACKEND: paddle
+
+可选模型：
+| 模型 | 准确率| 数据集|
+|-----|-------|-------|
+|bilstm|83.75|ChnSentiCorp|
+|skep_ernie_1.0_large_ch|96.08|ChnSentiCorp|
+
+paddleNLP官方模型说明：https://github.com/PaddlePaddle/PaddleNLP/blob/develop/docs/model_zoo/taskflow.md
 
 ## 计划
 
