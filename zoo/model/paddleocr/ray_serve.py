@@ -27,7 +27,7 @@ class PaddleOCRServe(Serve):
 
     @app.post("/")
     async def ocr(self, request: Request):
-        data = await request.json()
+        data = await request.body()
         return self.ray_model(data)
 
     @app.get("/health")

@@ -14,9 +14,9 @@ class PaddleOCRModel(Model):
     """
     封装PaddleOCR模型
 
-    模型：PaddleOCR
-    用途：图片OCR
-    github：https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/README_ch.md
+    模型: PaddleOCR
+    用途: 图片OCR
+    github: https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/README_ch.md
     """
     def __init__(self, model_name):
         super().__init__(task="OCR", model_lib=PADDLE_OCR, model_name=model_name)
@@ -28,8 +28,10 @@ class PaddleOCRModel(Model):
 
     def __call__(self, image):
         """
-        分析文本的情感倾向
-        :param texts: 文本数据, List
-        :return: 结果, List[Dict]
+        识别图片中的文字
+        Args:
+            image (bytes): 以二进制方式读取的图片
+        Returns:
+            result (List): OCR识别的结果 
         """
         return self.model.ocr(image)

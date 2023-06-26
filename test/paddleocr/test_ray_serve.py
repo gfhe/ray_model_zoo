@@ -1,9 +1,10 @@
+# -*- coding: UTF-8 -*- 
 import unittest
 from pathlib import Path
 import sys
 sys.path.append('D:\Workspace\model_zoo')
 print(sys.path)
-# -*- coding: UTF-8 -*- 
+
 import json
 import requests
 
@@ -20,10 +21,14 @@ class PaddleOCRServeTest(unittest.TestCase):
     def setUpClass(cls):
         cls.handle = serve.run(PaddleOCRServe.bind())
 
-    def test_senta(self):
-        response = requests.post("http://localhost:8000/ocr", json=json.dumps('https://p3.itc.cn/images01/20230621/cfd5746105d044e5bb2d973493c453ae.png'))
+    def test_ocr(self):
+        with open('data/news1.png', 'rb') as f:
+            img_bytes = f.read()
+        response = requests.post("http://localhost:8000/ocr", data=img_bytes)
         result = json.loads(response.text)
-        assert result[0]['label'] == 'positive'
+        import pprint
+        pprint.pprint(result)
+        assert len(result[0]) == 30
         
 
 

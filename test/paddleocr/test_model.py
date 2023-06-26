@@ -14,8 +14,10 @@ class PaddleOCRModelTest(unittest.TestCase):
         print("set up test class")
         cls.model = PaddleOCRModel('PP-OCRv3')
 
-    def test_senta(self):
-        ret = self.model('https://p3.itc.cn/images01/20230621/cfd5746105d044e5bb2d973493c453ae.png')
+    def test_ocr(self):
+        with open('data/news1.png', 'rb') as f:
+            img_bytes = f.read()
+        ret = self.model(image=img_bytes)
         assert len(ret[0]) == 30
 
 
