@@ -5,7 +5,7 @@ import sys
 sys.path.append('D:\Workspace\model_zoo')
 print(sys.path)
 
-from zoo.model.paddlenlp import PaddleNLPModel
+from zoo.backends.paddlenlp import PaddleNLPModel
 
 
 class ModelTest(unittest.TestCase):

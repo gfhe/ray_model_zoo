@@ -3,8 +3,8 @@ import logging
 
 from paddleocr import PaddleOCR
 
-from zoo.model.base import Model
-from zoo.model.registry import PADDLE_OCR
+from zoo.backends.base import Model
+from zoo.backends.registry import PADDLE_OCR
 
 logger = logging.getLogger(__name__)
 

@@ -5,7 +5,7 @@ import ray
 from ray import serve
 
 from zoo.config import data_dir
-from zoo.model.clip.ray_serve import clip
+from zoo.backends.clip.ray_serve import clip
 
 
 class ClipServeTest(unittest.TestCase):

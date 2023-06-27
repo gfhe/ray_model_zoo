@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 
-from zoo.model import ClipModel
+from zoo.backends import ClipModel
 from zoo.config import data_dir
 
 

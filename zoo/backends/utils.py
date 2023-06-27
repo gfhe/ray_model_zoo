@@ -1,5 +1,5 @@
-from zoo.model.paddlenlp import PaddleNLPServe
-from zoo.model.paddleocr import PaddleOCRServe
+from zoo.backends.paddlenlp import PaddleNLPServe
+from zoo.backends.paddleocr import PaddleOCRServe
 
 serve_map = {
     'PaddleNLPServe': PaddleNLPServe, 

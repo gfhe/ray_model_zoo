@@ -8,7 +8,7 @@ import json
 import requests
 
 from zoo import run
-from zoo.model.registry import PADDLE_NLP
+from zoo.backends.registry import PADDLE_NLP
 
 
 class PaddleNLPServeTest(unittest.TestCase):
@@ -25,7 +25,6 @@ class PaddleNLPServeTest(unittest.TestCase):
         result = json.loads(response.text)
         assert result[0]['label'] == 'positive'
         
-
 
 if __name__ == '__main__':
     unittest.main()

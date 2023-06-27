@@ -1,8 +1,8 @@
 from ray import serve
 from fastapi import FastAPI, Request
 
-from zoo.model.clip.model import ClipRayModel
-from zoo.model.base import Serve
+from zoo.backends.clip.model import ClipRayModel
+from zoo.backends.base import Serve
 
 app = FastAPI()
 

@@ -8,7 +8,7 @@ import json
 import requests
 
 from zoo import run
-from zoo.model.registry import PADDLE_OCR
+from zoo.backends.registry import PADDLE_OCR
 
 
 class PaddleOCRServeTest(unittest.TestCase):

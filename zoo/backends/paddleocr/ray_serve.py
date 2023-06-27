@@ -1,9 +1,9 @@
 from ray import serve
 from fastapi import FastAPI, Request
 
-from zoo.model.paddleocr import PaddleOCRModel
-from zoo.model.base import Serve
-from zoo.model.registry import PADDLE_OCR
+from zoo.backends.paddleocr import PaddleOCRModel
+from zoo.backends.base import Serve
+from zoo.backends.registry import PADDLE_OCR
 
 
 app = FastAPI()

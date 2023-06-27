@@ -2,8 +2,8 @@ from typing import Union, Dict
 
 from ray import serve
 
-from zoo.model.registry import registry
-from zoo.model.utils import get_serve_class
+from zoo.backends.registry import registry
+from zoo.backends.utils import get_serve_class
 
 
 def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, None]=None, **kwargs):

@@ -3,9 +3,9 @@ import json
 from ray import serve
 from fastapi import Request, FastAPI
 
-from zoo.model.paddlenlp import PaddleNLPModel
-from zoo.model.base import Serve
-from zoo.model.registry import PADDLE_NLP
+from zoo.backends.paddlenlp import PaddleNLPModel
+from zoo.backends.base import Serve
+from zoo.backends.registry import PADDLE_NLP
 
 
 app = FastAPI()

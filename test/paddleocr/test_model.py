@@ -4,8 +4,8 @@ import os
 import sys
 sys.path.append('D:\Workspace\model_zoo')
 
-from zoo.model.paddleocr import PaddleOCRModel
-from zoo.model.registry import PADDLE_OCR
+from zoo.backends.paddleocr import PaddleOCRModel
+from zoo.backends.registry import PADDLE_OCR
 
 class PaddleOCRModelTest(unittest.TestCase):
 

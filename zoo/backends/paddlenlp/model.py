@@ -2,7 +2,7 @@ import logging
 
 from paddlenlp.taskflow import Taskflow
 
-from zoo.model.base import Model
+from zoo.backends.base import Model
 
 
 logger = logging.getLogger(__name__)

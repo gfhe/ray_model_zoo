@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 from zoo.config import MODEL_DIR
-from zoo.model.registry import registry
+from zoo.backends.registry import registry
 
 logger = logging.getLogger(__name__)
 

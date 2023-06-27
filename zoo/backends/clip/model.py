@@ -6,7 +6,7 @@ from PIL import Image
 from cn_clip.clip import load_from_name, available_models
 
 from zoo.config import model_dir
-from zoo.model.base import Model, CN_CLIP
+from zoo.backends.base import Model, CN_CLIP
 
 
 class ClipModel(Model):
