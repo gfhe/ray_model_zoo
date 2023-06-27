@@ -20,9 +20,13 @@ registry = {
     },
     'SentimentAnalysis':{
         PADDLE_NLP: {
-            'bilstm': {'param': '', 'url': ''}
+            'default_serve': 'PaddleNLPServe',
+            'task_alias': 'sentiment_analysis', 
+            'models': {
+                'bilstm': {'param': '', 'url': ''},
+                'skep_ernie_1.0_large_ch': {'param': '', 'url': ''}, 
+                'uie-senta-base': {'param': ['schema'], 'url': ''},
+            }
         }
     }
 }
-
-TASKS = [t for t in registry]

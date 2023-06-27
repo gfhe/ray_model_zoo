@@ -3,6 +3,8 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.realpath(__name__)))
 
+from .utils import run
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -15,3 +17,5 @@ handler.setFormatter(formatter)
 
 # add handler to logger
 logger.addHandler(handler)
+
+__all__ = ['run']

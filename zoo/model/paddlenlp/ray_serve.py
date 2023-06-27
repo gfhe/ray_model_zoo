@@ -22,9 +22,9 @@ app = FastAPI()
                   )
 @serve.ingress(app)
 class PaddleNLPServe(Serve):
-
-    def __init__(self, task='sentiment_analysis', model_name='bilstm'):
-        self.ray_model = PaddleNLPModel(task=task, model_lib=PADDLE_NLP, model_name=model_name)
+    backend = PADDLE_NLP
+    def __init__(self, task, model='bilstm', **kwargs):
+        self.ray_model = PaddleNLPModel(task=task, backend=self.backend, model=model, **kwargs)
 
     @app.post("/")
     async def senta(self, request: Request):

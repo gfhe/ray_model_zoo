@@ -11,13 +11,13 @@ class PaddleNLPModel(Model):
     """
     封装PaddleNLP模型
 
-    模型：PaddleNLP
+    模型: PaddleNLP
     用途：中文情感分析
-    github：https://github.com/PaddlePaddle/PaddleNLP
+    github: https://github.com/PaddlePaddle/PaddleNLP
     """
-    def __init__(self, task, model_lib, model_name):
-        super().__init__(task, model_lib, model_name)
-        self.model = Taskflow(task=task, model=model_name, task_path=self.model_path)
+    def __init__(self, task, backend, model, **kwargs):
+        super().__init__(task, backend, model)
+        self.model = Taskflow(task=task, model=model, task_path=self.model_path, **kwargs)
         logger.info(f"PaddleNLP taskflow deployed")
 
     def __call__(self, texts: list):
