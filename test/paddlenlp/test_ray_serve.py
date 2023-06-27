@@ -17,13 +17,11 @@ class PaddleNLPServeTest(unittest.TestCase):
     def setUpClass(cls):
         cls.handle = run(task='SentimentAnalysis', 
                          backend=PADDLE_NLP, 
-                         model='uie-senta-base', 
-                         schema=['情感倾向[正向，负向]'])
+                         model='bilstm')
 
     def test_senta(self):
         response = requests.post("http://localhost:8000/senta", json=json.dumps(['这家餐厅太棒了，很好吃！']))
         result = json.loads(response.text)
-        print(result)
         assert result[0]['label'] == 'positive'
         
 

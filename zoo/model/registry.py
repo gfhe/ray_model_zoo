@@ -15,7 +15,10 @@ registry = {
     },
     'OCR': {
         PADDLE_OCR: {
-            'PP-OCRv3': {'param': '', 'url': ''}
+            'default_serve': 'PaddleOCRServe',
+            'models': {
+                'PP-OCRv3': {'param': '', 'url': ''}
+            }
         },
     },
     'SentimentAnalysis':{

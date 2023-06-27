@@ -5,14 +5,14 @@ import sys
 sys.path.append('D:\Workspace\model_zoo')
 
 from zoo.model.paddleocr import PaddleOCRModel
-
+from zoo.model.registry import PADDLE_OCR
 
 class PaddleOCRModelTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
         print("set up test class")
-        cls.model = PaddleOCRModel('PP-OCRv3')
+        cls.model = PaddleOCRModel('OCR', PADDLE_OCR)
 
     def test_ocr(self):
         with open('data/news1.png', 'rb') as f:

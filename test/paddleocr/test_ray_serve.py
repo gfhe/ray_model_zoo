@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*- 
 import unittest
-from pathlib import Path
 import sys
 sys.path.append('D:\Workspace\model_zoo')
 print(sys.path)
@@ -8,18 +7,16 @@ print(sys.path)
 import json
 import requests
 
-import ray
-from ray import serve
-
-from zoo.config import data_dir
-from zoo.model.paddleocr import PaddleOCRServe
+from zoo import run
+from zoo.model.registry import PADDLE_OCR
 
 
 class PaddleOCRServeTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.handle = serve.run(PaddleOCRServe.bind())
+        cls.handle = run(task='OCR', 
+                         backend=PADDLE_OCR)
 
     def test_ocr(self):
         with open('data/news1.png', 'rb') as f:

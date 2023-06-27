@@ -17,7 +17,7 @@ class PaddleNLPModel(Model):
     """
     def __init__(self, task, backend, model, **kwargs):
         super().__init__(task, backend, model)
-        self.model = Taskflow(task=task, model=model, task_path=self.model_path, **kwargs)
+        self.instance = Taskflow(task=task, model=self.model, task_path=self.model_path, **kwargs)
         logger.info(f"PaddleNLP taskflow deployed")
 
     def __call__(self, texts: list):
@@ -26,4 +26,4 @@ class PaddleNLPModel(Model):
         :param texts: 文本数据, list
         :return: 结果, List[Dict]
         """
-        return self.model(texts)
+        return self.instance(texts)

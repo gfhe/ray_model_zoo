@@ -26,6 +26,7 @@ BACKEND: paddle
 |-----|-------|-------|------|
 |bilstm|83.75|ChnSentiCorp|235.3
 |skep_ernie_1.0_large_ch|90.08|ChnSentiCorp|2.8|
+|uie-senta-base|94.35|ChnSentiCorp|1.4|
 
 paddleNLP官方模型说明：https://github.com/PaddlePaddle/PaddleNLP/blob/develop/docs/model_zoo/taskflow.md 
 

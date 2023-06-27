@@ -12,7 +12,11 @@ class Model(ABC):
     def __init__(self, task, backend, model):
         self.task = task
         self.backend = backend
-        self.model = model
+
+        if model is None:
+            self.model = self.default_model()
+        else:
+            self.model = model
         self.model_path = self.get_model_path()
 
         # 模型使用的硬件（框架相关，需要在子类中确定）
@@ -39,8 +43,6 @@ class Model(ABC):
         """
         默认的模型名字：模型参数列表的第一个
         """
-
-        assert self.model in registry[self.task][self.backend]['models']
         model_list = self.available_models()
         return model_list[0]
 
