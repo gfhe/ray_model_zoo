@@ -13,18 +13,19 @@
 ### CLIP
 
 TASK：特征提取[图、文]
+
 BACKEND：pytorch、triton
 
 ### 情感分析
 
 TASK: 分析中英文文本的情感倾向（正面/负面）
 
-BACKEND: paddle
+BACKEND: PaddleNLP
 
 可选模型：
 | 模型 | 准确率| 数据集| 速度iters/s |
 |-----|-------|-------|------|
-|bilstm|83.75|ChnSentiCorp|235.3
+|bilstm|83.75|ChnSentiCorp|235.3|
 |skep_ernie_1.0_large_ch|90.08|ChnSentiCorp|2.8|
 |uie-senta-base|94.35|ChnSentiCorp|1.4|
 
