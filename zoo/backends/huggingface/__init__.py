@@ -1,4 +1,6 @@
-from .model import HuggingfaceModel
+from .model import HuggingfacePipelineModel, HuggingfaceAutoModel
 from .ray_serve import HuggingfaceServe
 
-__all__ = ['HuggingfaceModel', 'HuggingfaceServe']
+__all__ = ['HuggingfacePipelineModel',
+           'HuggingfaceAutoModel', 
+           'HuggingfaceServe']

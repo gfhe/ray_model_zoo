@@ -47,20 +47,20 @@ def run(task: str,
     if not task in registry:
         raise ValueError(f"Task '{task}' not available, should be in {list(registry.keys())}.")
     if not backend in registry[task]:
-        raise ValueError(f"Backend '{backend}' not avaliable for task '{task}', \
-                            should be in {list(registry[task].keys())}.")
+        raise ValueError(f"Backend '{backend}' not avaliable for task '{task}', should be in {list(registry[task].keys())}.")
 
     # 校验是否提供了指定模型所需的额外参数
     backend_config = registry[task][backend]
     if model is None:
         model = next(iter(backend_config['models']))
     if not model in registry[task][backend]['models']:
-        raise ValueError(f"Model '{model}' not availabel for task '{task}' and model '{model}', \
-                            should be in {list(registry[task][backend]['models'].keys())}.")
+        raise ValueError(f"Model '{model}' not availabel for task '{task}' and model '{model}', should be in {list(registry[task][backend]['models'].keys())}.")
     model_config = backend_config['models'][model]
     for p in model_config['param']:
         if p not in kwargs:
             raise ValueError(f"Model '{model}' requires parameter '{p}', which is not provided.")
+    if 'backend_model' in model_config:
+        kwargs['backend_model'] = model_config['backend_model']
 
     # 校验Serve部署相关参数
     if 'route_prefix' not in deployment_config:
@@ -69,7 +69,7 @@ def run(task: str,
     if not isinstance(route_prefix, str):
         raise TypeError(f"'route_prefix' should be a string starts with '/', got {type(route_prefix)} object.")
     if not route_prefix.startswith('/'):
-        raise ValueError(f"'route_prefix' should be a string starts with '/', got {route_prefix}")
+        raise ValueError(f"'route_prefix' should be a string starts with '/', got '{route_prefix}'")
 
     # 若name未指定，则使用随机名称
     if name is None:
@@ -95,6 +95,7 @@ def run(task: str,
     task = backend_config.get('task_alias', task)
 
     # 部署Serve实例
+    print(kwargs)
     handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix, name=name)
     return handle
 

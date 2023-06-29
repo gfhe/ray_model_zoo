@@ -36,7 +36,7 @@ registry = {
             'default_serve': 'HuggingfaceServe',
             'task_alias': 'sentiment-analysis',
             'models': {
-                'distilbert-base-uncased-finetuned-sst-2-english': {'param': '', 'url': ''}
+                'distilbert-base-uncased-finetuned-sst-2-english': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}
             }
         }
     },
@@ -45,7 +45,16 @@ registry = {
             'default_serve': 'HuggingfaceServe',
             'task_alias': 'text-classification',
             'models': {
-                'roberta-large-mnli': {'param': '', 'url': ''}
+                'roberta-large-mnli': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}
+            }
+        }
+    },
+    'Translation': {
+        HUGGINGFACE: {
+            'default_serve': 'HuggingfaceServe',
+            'models': {
+                'Helsinki-NLP--opus-mt-zh-en': {'param': '', 'url': '', 'backend_model': 'HuggingfaceAutoModel'}, 
+                'Helsinki-NLP--opus-mt-en-zh': {'param': '', 'url': '', 'backend_model': 'HuggingfaceAutoModel'}, 
             }
         }
     }

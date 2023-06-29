@@ -45,11 +45,18 @@ OCR流程分为三个独立模块，分别是文本检测(Text Detection)，方�
 |PP-OCRv3|62.9|15.6|331|
 
 
+### 翻译
+中译英：Helsinki-NLP--opus-mt-zh-en
+模型地址 https://huggingface.co/Helsinki-NLP/opus-mt-zh-en
+
+英译中：Helsinki-NLP--opus-mt-en-zh
+模型地址 https://huggingface.co/Helsinki-NLP/opus-mt-en-zh
+
 ## 计划
 
 0. [X] CLIP: 20230530
 1. [ ] 语种识别
-2. [ ] 翻译
+2. [X] 翻译
 3. [ ] 小语种翻译
 4. [X] 情感分析
 5. [X] OCR
