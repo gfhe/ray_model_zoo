@@ -17,7 +17,7 @@ class PaddleNLPServe(Serve):
         self.ray_model = PaddleNLPModel(task=task, backend=self.backend, model=model, **kwargs)
 
     @app.post("/")
-    async def senta(self, request: Request):
+    async def infer(self, request: Request):
         data = await request.json()
         return self.ray_model(json.loads(data))
 

@@ -1,9 +1,9 @@
 from typing import Union, Dict
+import importlib
 
 from ray import serve
 
 from zoo.backends.registry import registry
-from zoo.backends.utils import get_serve_class
 
 
 def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, None]=None, **kwargs):
@@ -37,9 +37,9 @@ def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, 
 
     # 获取Serve部署类
     serve_name = model_config.get('serve', registry[task][backend]['default_serve'])
-    serve_class = get_serve_class(serve_name)
-    serve_class = serve.deployment(route_prefix=route_prefix,
-                                   autoscaling_config={
+    backend_module = importlib.import_module(f"zoo.backends.{backend}")
+    serve_class = getattr(backend_module, serve_name)
+    serve_class = serve.deployment(autoscaling_config={
                                         "min_replicas": 1,
                                         "initial_replicas": 1,
                                         "max_replicas": 2,
@@ -54,5 +54,5 @@ def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, 
     task = backend_config.get('task_alias', task)
 
     # 部署Serve实例
-    handle = serve.run(serve_class.bind(task=task, model=model, **kwargs))
+    handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix)
     return handle

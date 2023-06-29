@@ -1,6 +1,7 @@
 CN_CLIP = "cn_clip"
 PADDLE_OCR = "paddleocr"
 PADDLE_NLP = "paddlenlp"
+HUGGINGFACE = 'huggingface'
 
 # 任务类型 - 模型库 - 模型名称
 registry = {
@@ -29,6 +30,15 @@ registry = {
                 'bilstm': {'param': '', 'url': ''},
                 'skep_ernie_1.0_large_ch': {'param': '', 'url': ''}, 
                 'uie-senta-base': {'param': ['schema'], 'url': ''},
+            }
+        }
+    },
+    'NaturalLanguageInference': {
+        HUGGINGFACE: {
+            'default_serve': 'HuggingfaceServe',
+            'task_alias': 'text-classification',
+            'models': {
+                'roberta-large-mnli': {'param': '', 'url': ''}
             }
         }
     }

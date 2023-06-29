@@ -31,6 +31,20 @@ BACKEND: PaddleNLP
 
 paddleNLP官方模型说明：https://github.com/PaddlePaddle/PaddleNLP/blob/develop/docs/model_zoo/taskflow.md 
 
+### OCR
+
+TASK：从图片中识别中英文文字
+
+BACKEND：PaddleOCR
+
+#### PaddleOCR
+OCR流程分为三个独立模块，分别是文本检测(Text Detection)，方向分类器(Direction Classifier)，文本识别(Text Recognition)。
+
+| 文本检测模型 | Hmean%| 模型大小MB|速度ms|
+|-----|-------|-------|-------|
+|PP-OCRv3|62.9|15.6|331|
+
+
 ## 计划
 
 0. [X] CLIP: 20230530

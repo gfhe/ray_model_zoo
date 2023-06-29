@@ -8,7 +8,6 @@ import json
 import requests
 
 from zoo import run
-from zoo.backends.registry import PADDLE_NLP
 
 
 class PaddleNLPServeTest(unittest.TestCase):
@@ -16,7 +15,7 @@ class PaddleNLPServeTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.handle = run(task='SentimentAnalysis', 
-                         backend=PADDLE_NLP, 
+                         backend='paddlenlp', 
                          model='bilstm', 
                          deployment_config={'route_prefix': '/senta'})
 

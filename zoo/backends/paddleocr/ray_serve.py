@@ -15,7 +15,7 @@ class PaddleOCRServe(Serve):
         self.ray_model = PaddleOCRModel(task=task, backend=self.backend, model=model, **kwargs)
 
     @app.post("/")
-    async def ocr(self, request: Request):
+    async def infer(self, request: Request):
         data = await request.body()
         return self.ray_model(data)
 
