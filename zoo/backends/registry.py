@@ -31,6 +31,13 @@ registry = {
                 'skep_ernie_1.0_large_ch': {'param': '', 'url': ''}, 
                 'uie-senta-base': {'param': ['schema'], 'url': ''},
             }
+        },
+        HUGGINGFACE: {
+            'default_serve': 'HuggingfaceServe',
+            'task_alias': 'sentiment-analysis',
+            'models': {
+                'distilbert-base-uncased-finetuned-sst-2-english': {'param': '', 'url': ''}
+            }
         }
     },
     'NaturalLanguageInference': {

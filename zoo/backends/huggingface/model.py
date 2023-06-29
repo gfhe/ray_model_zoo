@@ -17,7 +17,7 @@ class HuggingfaceModel(Model):
     def __init__(self, task, backend=HUGGINGFACE, model=None, **kwargs):
         super().__init__(task=task, backend=backend, model=model)
         self.instance = pipeline(task=task, 
-                                 model=model,
+                                 model=self.model_path,
                                  **kwargs)
         logger.info(f"Huggingface model deployed.")
 

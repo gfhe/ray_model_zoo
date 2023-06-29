@@ -167,3 +167,4 @@ zoo_data/
 .vscode/
 .idea/
 .gitpod.yml
+setup.py

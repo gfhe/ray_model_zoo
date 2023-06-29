@@ -12,11 +12,18 @@ class HuggingfaceModelTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("set up test class")
-        cls.model = HuggingfaceModel('text-classification',HUGGINGFACE, 'roberta-large-mnli')
 
     def test_classification(self):
-        ret = self.model("A soccer game with multiple males playing. Some men are playing a sport.")
-        print(ret)
+        model = HuggingfaceModel('text-classification',HUGGINGFACE, 'roberta-large-mnli')
+        ret = model("A soccer game with multiple males playing. Some men are playing a sport.")
+        assert ret[0]['label'] == 'ENTAILMENT'
+        return
+    
+    def test_distilbert_en(self):
+        model = HuggingfaceModel('sentiment-analysis', HUGGINGFACE, 'distilbert-base-uncased-finetuned-sst-2-english')
+        ret = model("A soccer game with multiple males playing")
+        assert ret[0]['label'] == 'POSITIVE'
+        return
 
 
 if __name__ == '__main__':
