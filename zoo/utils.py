@@ -6,7 +6,7 @@ from ray import serve
 from zoo.backends.registry import registry
 
 
-def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, None]=None, **kwargs):
+def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, None]=None, name=None, **kwargs):
     # 校验指定任务和后端是否合法
     if not task in registry:
         raise ValueError(f"Task '{task}' not available, should be in {list(registry.keys())}.")
@@ -35,6 +35,10 @@ def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, 
     if not route_prefix.startswith('/'):
         raise ValueError(f"'route_prefix' should be a string starts with '/', got {route_prefix}")
 
+    # 校验name是否合法
+    if name is None:
+        name = f"{backend}:{rand_str()}"
+
     # 获取Serve部署类
     serve_name = model_config.get('serve', registry[task][backend]['default_serve'])
     backend_module = importlib.import_module(f"zoo.backends.{backend}")
@@ -54,5 +58,12 @@ def run(task: str, backend: str, model:str=None, deployment_config: Union[Dict, 
     task = backend_config.get('task_alias', task)
 
     # 部署Serve实例
-    handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix)
+    handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix, name=name)
     return handle
+
+def rand_str():
+    import random
+    import hashlib
+    val = random.randbytes(500)
+    hash_value = hashlib.md5(val)
+    return hash_value.hexdigest()[:6]
