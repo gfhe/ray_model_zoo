@@ -26,17 +26,22 @@ class HuggingfaceModelTest(unittest.TestCase):
         return
     
     def test_helsinki_en_zh(self):
-        model = HuggingfaceAutoModel('Translation', HUGGINGFACE, 'Helsinki-NLP--opus-mt-en-zh')
+        model = HuggingfaceAutoModel('translation', HUGGINGFACE, 'Helsinki-NLP--opus-mt-en-zh')
         ret = model("My name is Wolfgang, and I live in Berlin.")
         print(ret)
-        return
+    #     return
     
     def test_helsinki_zh_en(self):
-        model = HuggingfaceAutoModel('Translation', HUGGINGFACE, 'Helsinki-NLP--opus-mt-zh-en')
+        model = HuggingfaceAutoModel('translation', HUGGINGFACE, 'Helsinki-NLP--opus-mt-zh-en')
         ret = model("我叫沃尔夫冈，我住在柏林。")
         print(ret)
         return
 
+    def test_helsinki_de_en(self):
+        model = HuggingfacePipelineModel('translation', HUGGINGFACE, 'Helsinki-NLP--opus-mt-de-en')
+        ret = model("Schön dich kennenzulernen, mein Name ist Wolfgang.")
+        print(ret)
+        return
 
 if __name__ == '__main__':
     unittest.main()
