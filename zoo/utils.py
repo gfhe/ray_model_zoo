@@ -1,4 +1,4 @@
-from typing import Union, Dict
+from typing import Union, Dict, Optional
 import importlib
 
 from ray import serve
@@ -16,13 +16,13 @@ default_ray_actor_options={"num_cpus": 1.0, "num_gpus": 0.0}
 
 def run(task: str,
         backend: str,
-        model: str=None,
-        route_prefix: str = None,
-        name: str=None,
-        port: int=8000,
-        deployment_config: Union[Dict, None]=None,
-        autoscaling_config: Union[Dict, None]=None,
-        ray_actor_options: Union[Dict, None]=None,
+        model: Optional[str]=None,
+        route_prefix: Optional[str] = None,
+        name: Optional[str]=None,
+        port: Optional[int]=8000,
+        deployment_config: Optional[Dict]=None,
+        autoscaling_config: Optional[Dict]=None,
+        ray_actor_options: Optional[Dict]=None,
         **kwargs):
     """部署模型的入口
     
@@ -94,6 +94,7 @@ def run(task: str,
     serve_name = model_config.get('serve', registry[task][backend]['default_serve'])
     backend_module = importlib.import_module(f"zoo.backends.{backend}")
     serve_class = getattr(backend_module, serve_name)
+    # argparser = getattr(backend_module, 'argparser')  # 每个后端独有的参数校验函数，校验传递给模型的参数、特殊处理等
     serve_class = serve.deployment(autoscaling_config=autoscaling_config,
                                    ray_actor_options=ray_actor_options
                                    )(serve_class) 
@@ -102,7 +103,6 @@ def run(task: str,
     task = backend_config.get('task_alias', task)
 
     # 部署Serve实例
-    print(kwargs)
     handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix, name=name, port=port)
     return handle
 

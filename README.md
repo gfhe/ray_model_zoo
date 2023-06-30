@@ -52,6 +52,11 @@ OCR流程分为三个独立模块，分别是文本检测(Text Detection)，方�
 英译中：Helsinki-NLP--opus-mt-en-zh
 模型地址 https://huggingface.co/Helsinki-NLP/opus-mt-en-zh
 
+
+| 模型 | BLEU| chr-F|速度ms|
+|-----|-------|-------|-------|
+|Helsinki-NLP--opus-mt-zh-en|36.1|0.548|-|
+|Helsinki-NLP--opus-mt-en-zh|31.4|0.268|-|
 ## 计划
 
 0. [X] CLIP: 20230530

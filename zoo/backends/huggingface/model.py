@@ -34,7 +34,7 @@ class HuggingfaceAutoModel(Model):
         super().__init__(task=task, backend=backend, model=model)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
         self.instance = AutoModelForSeq2SeqLM.from_pretrained(self.model_path)
-        self.device = 'cpu'
+        self.device = kwargs.get('device', 'cpu')
         logger.info(f"Huggingface automodel deployed.")
 
     def __call__(self, text):
