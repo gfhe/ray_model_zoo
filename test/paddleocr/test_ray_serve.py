@@ -17,7 +17,7 @@ class PaddleOCRServeTest(unittest.TestCase):
     def setUpClass(cls):
         cls.handle = run(task='OCR', 
                          backend=PADDLE_OCR, 
-                         deployment_config={'route_prefix': "/ocr"})
+                         route_prefix="/ocr")
 
     def test_ocr(self):
         with open('data/news1.png', 'rb') as f:

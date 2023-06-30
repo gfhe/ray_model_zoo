@@ -17,8 +17,10 @@ default_ray_actor_options={"num_cpus": 1.0, "num_gpus": 0.0}
 def run(task: str,
         backend: str,
         model: str=None,
-        deployment_config: Union[Dict, None]=None,
+        route_prefix: str = None,
         name: str=None,
+        port: int=8000,
+        deployment_config: Union[Dict, None]=None,
         autoscaling_config: Union[Dict, None]=None,
         ray_actor_options: Union[Dict, None]=None,
         **kwargs):
@@ -28,8 +30,10 @@ def run(task: str,
         task (str): 要部署的任务类型
         backend (str): 要使用的后端
         model (str): 要使用的模型
-        deployment_config (Dict): serve部署的配置, 若未提供则使用默认参数
+        route_prefix (str): 部署的url后缀
         name (str): serve部署的名称
+        port (int): serve服务的端口号
+        deployment_config (Dict): serve部署的配置, 若未提供则使用默认参数
         autoscaling_config (Dict): serve部署的自动扩缩容配置, 若未提供则使用默认参数
         ray_actor_options (Dict): serve部署中actor的资源配置, 若未提供则使用默认参数
         **kwargs: 其它提供给模型的参数
@@ -62,18 +66,21 @@ def run(task: str,
     if 'backend_model' in model_config:
         kwargs['backend_model'] = model_config['backend_model']
 
-    # 校验Serve部署相关参数
-    if 'route_prefix' not in deployment_config:
-        raise KeyError(f"'route_prefix' not provided in deployment_config.")
-    route_prefix = deployment_config['route_prefix']
+    # 校验route_prefix
     if not isinstance(route_prefix, str):
-        raise TypeError(f"'route_prefix' should be a string starts with '/', got {type(route_prefix)} object.")
+        raise TypeError(f"'route_prefix' should be a string starts with '/', got '{type(route_prefix)}' object.")
     if not route_prefix.startswith('/'):
         raise ValueError(f"'route_prefix' should be a string starts with '/', got '{route_prefix}'")
 
-    # 若name未指定，则使用随机名称
+    # 校验name，若name未指定，则使用随机名称
+    if not isinstance(name, str):
+        raise TypeError(f"'name' should be a string object, got '{type(name)}' object")
     if name is None:
         name = f"{backend}:{rand_str()}"
+    
+    # 校验port
+    if not isinstance(port, int):
+        raise TypeError(f"'port' should be an int object, got '{type(port)}' object")
 
     # 校验autoscaling_config是否合法
     if autoscaling_config is None:
@@ -96,7 +103,7 @@ def run(task: str,
 
     # 部署Serve实例
     print(kwargs)
-    handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix, name=name)
+    handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix, name=name, port=port)
     return handle
 
 def rand_str():
