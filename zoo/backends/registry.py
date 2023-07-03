@@ -54,8 +54,8 @@ registry = {
             'task_alias': 'translation', 
             'default_serve': 'HuggingfaceServe',
             'models': {
-                'Helsinki-NLP--opus-mt-zh-en': {'param': '', 'url': '', 'backend_model': 'HuggingfaceAutoModel'}, 
-                'Helsinki-NLP--opus-mt-en-zh': {'param': '', 'url': '', 'backend_model': 'HuggingfaceAutoModel'}, 
+                'Helsinki-NLP--opus-mt-zh-en': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}, 
+                'Helsinki-NLP--opus-mt-en-zh': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}, 
                 'Helsinki-NLP--opus-mt-de-en': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}, 
             }
         }
