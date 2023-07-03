@@ -47,22 +47,27 @@ OCR流程分为三个独立模块，分别是文本检测(Text Detection)，方�
 
 ### 翻译
 中译英：Helsinki-NLP--opus-mt-zh-en
-模型地址 https://huggingface.co/Helsinki-NLP/opus-mt-zh-en
+模型地址： https://huggingface.co/Helsinki-NLP/opus-mt-zh-en
 
 英译中：Helsinki-NLP--opus-mt-en-zh
-模型地址 https://huggingface.co/Helsinki-NLP/opus-mt-en-zh
+模型地址： https://huggingface.co/Helsinki-NLP/opus-mt-en-zh
 
 
 | 模型 | BLEU| chr-F|速度ms|
 |-----|-------|-------|-------|
 |Helsinki-NLP--opus-mt-zh-en|36.1|0.548|-|
 |Helsinki-NLP--opus-mt-en-zh|31.4|0.268|-|
+
+### 语种识别
+模型：papluca/xlm-roberta-base-language-detection
+模型地址：https://huggingface.co/papluca/xlm-roberta-base-language-detection
+
 ## 计划
 
 0. [X] CLIP: 20230530
-1. [ ] 语种识别
+1. [X] 语种识别
 2. [X] 翻译
-3. [ ] 小语种翻译
+3. [X] 小语种翻译
 4. [X] 情感分析
 5. [X] OCR
 6. [ ] LLAMA

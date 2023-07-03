@@ -1,6 +1,7 @@
-from .model import HuggingfacePipelineModel, HuggingfaceAutoModel
+from .model import HuggingfacePipelineModel, HuggingfaceAutoSeq2SeqLMModel, HuggingfaceAutoSequenceClassificationModel
 from .ray_serve import HuggingfaceServe
 
 __all__ = ['HuggingfacePipelineModel',
-           'HuggingfaceAutoModel', 
+           'HuggingfaceAutoSeq2SeqLMModel', 
+           'HuggingfaceAutoSequenceClassificationModel'
            'HuggingfaceServe']

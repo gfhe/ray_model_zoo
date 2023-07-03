@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from zoo.backends.base import Model
 from zoo.backends.registry import HUGGINGFACE
@@ -30,13 +31,18 @@ class HuggingfacePipelineModel(Model):
 
 class HuggingfaceAutoModel(Model):
     def __init__(self, task, backend=HUGGINGFACE, model=None, **kwargs):
-        from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+        from transformers import AutoTokenizer
         super().__init__(task=task, backend=backend, model=model)
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_path)
-        self.instance = AutoModelForSeq2SeqLM.from_pretrained(self.model_path)
         self.device = kwargs.get('device', 'cpu')
-        logger.info(f"Huggingface automodel deployed.")
 
+class HuggingfaceAutoSeq2SeqLMModel(HuggingfaceAutoModel):
+    def __init__(self, task, backend=HUGGINGFACE, model=None, **kwargs):
+        from transformers import AutoModelForSeq2SeqLM
+        super().__init__(task=task, backend=backend, model=model)
+        self.instance = AutoModelForSeq2SeqLM.from_pretrained(self.model_path)
+        logger.info(f"Huggingface HuggingfaceAutoSeq2SeqLMModel deployed.")
+    
     def __call__(self, text):
         """
         调用模型
@@ -50,3 +56,15 @@ class HuggingfaceAutoModel(Model):
         out_text = self.tokenizer.decode(out[0])
         out_text = out_text.replace("<pad> ",'').replace("<pad>", "")
         return out_text
+
+class HuggingfaceAutoSequenceClassificationModel(HuggingfaceAutoModel):
+    def __init__(self, task, backend=HUGGINGFACE, model=None, **kwargs):
+        from transformers import AutoModelForSequenceClassification
+        super().__init__(task=task, backend=backend, model=model)
+        self.instance = AutoModelForSequenceClassification.from_pretrained(self.model_path)
+        logger.info(f"Huggingface HuggingfaceAutoSequenceClassificationModel deployed.")
+    
+    def __call__(self, text):
+        encode_text = self.tokenizer(text, max_length=128, truncation=True, padding=True, return_tensors='pt').to(self.device)
+        out = self.instance(**encode_text)
+        return out

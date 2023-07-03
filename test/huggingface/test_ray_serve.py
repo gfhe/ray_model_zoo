@@ -49,7 +49,14 @@ class HuggingfaceServeTest(unittest.TestCase):
         assert result == 'My name is Wolfgang, and I live in Berlin.</s>'
         return
         
-
+    def test_papluca_xlm_roberta_base_language_detection(self):
+        handle = run('LanguageDetection', HUGGINGFACE, 'papluca--xlm-roberta-base-language-detection', 
+                     route_prefix='/lang-det', 
+                     name='lang-det')
+        response = requests.post("http://localhost:8000/lang-det", json=json.dumps(["Jactos do exército matam 38 militantes em ataques aéreos no Noroeste do Paquistão"]))
+        result = json.loads(response.text)
+        assert result[0]['label'] == 'pt'
+        return
 
 if __name__ == '__main__':
     unittest.main()

@@ -59,5 +59,14 @@ registry = {
                 'Helsinki-NLP--opus-mt-de-en': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}, 
             }
         }
+    },
+    'LanguageDetection': {
+        HUGGINGFACE: {
+            'task_alias': 'text-classification',
+            'default_serve': 'HuggingfaceServe',
+            'models': {
+                'papluca--xlm-roberta-base-language-detection': {'param': '', 'url': '', 'backend_model': 'HuggingfacePipelineModel'}
+            }
+        }
     }
 }
