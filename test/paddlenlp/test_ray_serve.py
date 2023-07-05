@@ -17,7 +17,8 @@ class PaddleNLPServeTest(unittest.TestCase):
         cls.handle = run(task='SentimentAnalysis', 
                          backend='paddlenlp', 
                          model='bilstm', 
-                         route_prefix='/senta')
+                         route_prefix='/senta',
+                         name='senta')
 
     def test_senta(self):
         response = requests.post("http://localhost:8000/senta", json=json.dumps(['这家餐厅太棒了，很好吃！']))
