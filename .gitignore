@@ -168,3 +168,4 @@ zoo_data/
 .idea/
 .gitpod.yml
 setup.py
+model/
