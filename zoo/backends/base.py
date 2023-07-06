@@ -10,6 +10,27 @@ import inspect
 logger = logging.getLogger(__name__)
 
 
+class Requirement:
+    """
+    NOTE: 没有检查依赖冲突的机制
+    """
+
+    def __init__(self):
+        self.deps = {}
+
+    def include(self, requirements: List):
+        for requirement in requirements:
+            self.deps.update(requirement.all_dependencies())
+        return self
+
+    def add_dependency(self, dependencies: Dict[str, str]):
+        self.deps.update(dependencies)
+        return self
+
+    def all_dependencies(self):
+        return self.deps
+
+
 class ModelCard(ABC):
     """
     模型静态信息
@@ -49,14 +70,14 @@ class ModelCard(ABC):
     def available_models(self):
         return [name for name in self.available_models_detail()]
 
-    def valid_detail_model_choice(self, detail_model_choice:str)-> bool:
+    def valid_detail_model_choice(self, detail_model_choice: str) -> bool:
         return detail_model_choice in self.available_models_detail()
 
     @abstractmethod
     def default_model(self) -> str:
         raise NotImplementedError
 
-    def info(self)->Dict:
+    def info(self) -> Dict:
         return {
             "name": self.model_name,
             "default_model": self.default_model(),
@@ -122,8 +143,3 @@ class Serve(ABC):
         暴露服务健康的endpoint, 每个serve 自己实现。
         """
         raise NotImplementedError
-
-
-
-if __name__ == '__main__':
-    print(ModelCard.__subclasses__())
