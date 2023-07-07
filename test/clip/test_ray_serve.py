@@ -14,16 +14,16 @@ class ClipServeTest(unittest.TestCase):
     def setUpClass(cls):
         cls.handle = serve.run(clip)
 
-    def test_clip_ray_serve_image(self):
-        with open(Path(data_dir) / 'pokemon.jpeg', 'rb') as f:
-            embedding = ray.get(self.handle.encode_image.remote(image=[f.read()]))
-            print(embedding)
-            self.assertEqual(embedding.shape[1], 1024)
-
     def test_clip_ray_serve_text(self):
-        embedding = ray.get(self.handle.encode_text.remote(text=["这是一只皮卡丘", "hello"]))
+        embedding = ray.get(self.handle.text_features.remote(text=["这是一只皮卡丘", "hello"]))
         print(embedding)
         self.assertEqual(embedding.shape[1], 1024)
+
+    def test_clip_ray_serve_image(self):
+        with open(Path(data_dir) / 'pokemon.jpeg', 'rb') as f:
+            embedding = ray.get(self.handle.image_features.remote(image=[f.read()]))
+            print(embedding)
+            self.assertEqual(embedding.shape[1], 1024)
 
 
 if __name__ == '__main__':

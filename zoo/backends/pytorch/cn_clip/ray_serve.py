@@ -1,5 +1,6 @@
 from ray import serve
 from fastapi import FastAPI, Request
+import logging
 
 from zoo.backends.pytorch.cn_clip.model import ClipModel
 from zoo.backends.base import Serve
@@ -16,7 +17,7 @@ app = FastAPI()
                       "upscale_delay_s": 10,
                       "downscale_delay_s": 10
                   },
-                  ray_actor_options={"num_cpus": 0, "num_gpus": 0.5}
+                  ray_actor_options={"num_cpus": 1, "num_gpus": 0}
                   )
 @serve.ingress(app)
 class ClipModelServe(Serve):
@@ -25,7 +26,7 @@ class ClipModelServe(Serve):
         self.model = ClipModel()
 
     @app.post("/text")
-    async def text_feature(self, request: Request):
+    async def text_features(self, request: Request):
         """
         文本向量表示推理：
 
@@ -35,11 +36,14 @@ class ClipModelServe(Serve):
         :param request: 请求体，Content-Type: application/json, body: ["text1", "text2"]
         :return: 向量表示，list
         """
-
-        return await self.model.text_features(request)
+        texts = await request.json()
+        logging.debug(f"REST body: {len(texts)}, type={type(texts)}")
+        text_embeddings = self.model.text_features(texts)
+        logging.debug(f"result shape: {text_embeddings.shape},{type(text_embeddings)}")
+        return text_embeddings.cpu().detach().numpy().tolist()
 
     @app.post("/image")
-    async def image_feature(self, request: Request):
+    async def image_features(self, request: Request):
         """
         图片向量表示推理
 
@@ -49,12 +53,15 @@ class ClipModelServe(Serve):
         :param request: 请求体，Content-Type: multipart/form-data, 支持上传多个图片，key=image
         :return: 向量表示，list
         """
-
-        return await self.ray_model.image_feature(request)
+        form = await request.form()
+        images = form.getlist('image')
+        logging.debug(f"images size: {len(images)}")
+        images_bytes = [await image.read() for image in images]
+        image_embeddings = self.model.image_features(images_bytes)
+        return image_embeddings.cpu().detach().numpy().tolist()
 
     @app.get("/health")
     def health(self):
-        # return super().health()
         return "ok"
 
 
