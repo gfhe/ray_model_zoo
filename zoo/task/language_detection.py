@@ -10,7 +10,7 @@ class LanguageDetection(ABC):
     task = Task.LanguageDetection
 
     @abstractmethod
-    def lang(self, text: str):
+    def __call__(self, text):
         """
         分析文本的语种，返回符合IOS标准的缩写
 

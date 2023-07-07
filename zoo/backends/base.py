@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod, abstractproperty
 import logging
 from pathlib import Path
-
-from zoo.config import MODEL_DIR
 from typing import Dict, List
-from zoo.constant import Backend, Task
 import inspect
+
+from zoo.config import model_dir
+from zoo.constant import Backend, Task
+
 
 logger = logging.getLogger(__name__)
 
@@ -101,18 +102,17 @@ class Model(ABC):
         pass
 
     @classmethod
-    @abstractmethod
-    def model_card(cls) -> ModelCard:
+    def get_model_card(cls) -> ModelCard:
         """
         模型的信息
         """
-        raise NotImplementedError
+        return cls.get_model_card()
 
     def __init__(self, detail_model_choice: str = None, **kwargs):
         """
         :param detail_model_choice:具体的模型规模的名字
         """
-        self._model_card = Model.model_card()
+        self._model_card = self.get_model_card()
         self.detail_model_choice = self._model_card.default_model() if detail_model_choice is None \
             else detail_model_choice
 
@@ -130,7 +130,7 @@ class Model(ABC):
 
         :ref:`zoo.config.model_dir`
         """
-        return Path(MODEL_DIR) / self._model_card.backend.value / self._model_card.model_name
+        return Path(model_dir) / self._model_card.backend.value / self._model_card.model_name / self.detail_model_choice
 
 
 class Serve(ABC):
