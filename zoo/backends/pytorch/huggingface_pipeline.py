@@ -1,25 +1,28 @@
 import logging
-from typing import Any
+from abc import ABC
 
 from zoo.backends.base import Model
-from zoo.backends.registry import HUGGINGFACE
+from zoo.constant import Task
 
 logger = logging.getLogger(__name__)
 
 
-class HuggingfacePipelineModel(Model):
+class HuggingfacePipelineModel(ABC, Model):
     """
     封装Huggingface模型
     """
 
-    def __init__(self, task, backend=HUGGINGFACE, model=None, **kwargs):
+    def __init__(self, task: Task = None, task_alias: str = None, detail_model_choice: str = None, **kwargs):
         from transformers import pipeline
-        super().__init__(task=task, backend=backend, model=model)
-        self.instance = pipeline(task=task,
+        super().__init__(detail_model_choice, kwargs=kwargs)
+        self.task = task
+        self.task_alais = task_alias
+        self.instance = pipeline(task=self.task_alais,
                                  model=self.model_path,
                                  **kwargs)
-        logger.info(f"Huggingface pipeline model deployed.")
+        logger.info(f"Huggingface pipeline model started.")
 
+    # TODO: 可以改成list的吗？
     def __call__(self, sentence):
         """
         调用模型

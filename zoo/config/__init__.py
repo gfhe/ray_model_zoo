@@ -1,17 +1,21 @@
 import configparser
 from pathlib import Path
+import logging
+import os
 
-MODEL_DIR = "models"
-DATA_DIR = "data"
-ROOT_DIR = 'D:\Workspace\model_zoo'
+_MODEL_DIR = "models"
+_DATA_DIR = "data"
 
-# config = configparser.ConfigParser()
-# config.read('config.ini')
-#
-# data_dir = config.get('paths', DATA_DIR)
-# model_dir = config.get('paths', MODEL_DIR)
+current_dir_path = os.path.dirname(os.path.abspath(__file__))
 
-data_dir = Path(ROOT_DIR) / DATA_DIR
-model_dir = Path(ROOT_DIR) / MODEL_DIR
+config = configparser.ConfigParser()
+config.read(current_dir_path+'/config.ini')
+
+default_profile = config.get("DEFAULT", 'profile')
+ROOT_DIR = config.get(default_profile, 'root_dir')
+logging.info(f"ZOO ROOT DIR: {ROOT_DIR}")
+
+data_dir = Path(ROOT_DIR) / _DATA_DIR
+model_dir = Path(ROOT_DIR) / _MODEL_DIR
 
 __all__ = ['data_dir', 'model_dir']

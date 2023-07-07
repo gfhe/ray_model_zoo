@@ -1,5 +1,6 @@
-from zoo.backends.base import ModelCard
 from typing import Dict
+
+from zoo.backends.base import ModelCard
 from zoo.constant import Task, Backend
 
 
@@ -19,8 +20,3 @@ class ClipModelCard(ModelCard):
 
     def default_model(self) -> str:
         return 'RN50'
-
-
-if __name__ == '__main__':
-    card = ClipModelCard()
-    print(card.info())

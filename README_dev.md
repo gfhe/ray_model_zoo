@@ -49,6 +49,12 @@
 7. 部署RayServices和RayCluster
 8. 测试部署
 
+
+### 注意事项
+
+1. 每个module的`__init__.py`里面一般**不要**初始化类。
+2. model_card 在本 model的module的`__init__.py` 导入。
+
 ### 测试
 
 * 开发位置和命名： `text/[MODEL]/`

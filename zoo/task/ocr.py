@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from zoo.constant import Task
+
 
 class OCR(ABC):
     """
@@ -10,7 +12,7 @@ class OCR(ABC):
     task = Task.OCR
 
     @abstractmethod
-    def detect(self, image: bytes):
+    def detect(self, image: List[bytes]):
         """
         图片专为文字
 

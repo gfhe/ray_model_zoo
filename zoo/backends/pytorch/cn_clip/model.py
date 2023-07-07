@@ -1,16 +1,13 @@
-from pathlib import Path
-from typing import Dict, List
+from typing import List
 
-from PIL import Image
 import cn_clip.clip as clip
-from cn_clip.clip import load_from_name, available_models
-
-from zoo.backends.pytorch.cn_clip.model_card import ClipModelCard
-
-from zoo.backends.base import Model, ModelCard
-from zoo.task.feature_extraction import TextFeatureExtraction, ImageFeatureExtraction, task_name
-from zoo.config import model_dir
 import torch
+from PIL import Image
+from cn_clip.clip import load_from_name
+
+from zoo.backends.base import Model
+from zoo.backends.pytorch.cn_clip.model_card import ClipModelCard
+from zoo.task.feature_extraction import TextFeatureExtraction, ImageFeatureExtraction
 
 
 class ClipModel(Model, TextFeatureExtraction, ImageFeatureExtraction):
@@ -26,34 +23,27 @@ class ClipModel(Model, TextFeatureExtraction, ImageFeatureExtraction):
     def device(self):
         return "cuda" if torch.cuda.is_available() else 'cpu'
 
-    @classmethod
-    def model_card(cls) -> ModelCard:
-        """
-        模型的信息
-        """
-        return ClipModelCard()
-
     def __init__(self, detail_model_choice: str = None, **kwargs):
-        super().__init__(detail_model_choice, **kwargs)
+        super().__init__(ClipModelCard(), detail_model_choice, **kwargs)
         self.model, self.preprocess = load_from_name(self.detail_model_choice,
                                                      device=self.device,
-                                                     download_root=self.model_path())
+                                                     download_root=self.model_path)
 
     def text_features(self, texts: List[str]):
         """
-                将文本编码为向量
-                :param texts: 文本数据, list
-                :return: 向量表示
-                """
+        将文本编码为向量
+        :param texts: 文本数据, list
+        :return: 向量表示
+        """
         tokens = clip.tokenize(list(texts)).to(self.device)
         return self.model.encode_text(tokens)
 
     def image_features(self, images: List[bytes]):
         """
-                将图片编码为向量
-                :param images: 图片二进制数据, list
-                ：return: 向量表示
-                """
+        将图片编码为向量
+        :param images: 图片二进制数据, list
+        ：return: 向量表示
+        """
         import io
         res = []
         for image_bytes in images:

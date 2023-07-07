@@ -1,3 +1,64 @@
+import importlib
+import inspect
+import os
+from typing import Type, List
+import logging
+
+from zoo.backends.base import ModelCard
+from zoo.constant import Backend
+from zoo.utils.package_utils import subclasses_py
+
+_model_root_module_name = 'zoo.backends'
+root_module = importlib.import_module(_model_root_module_name)
+root_module_path = root_module.__path__[0]
+
+
+def check_model_definition(backend: Backend, model_name: str) -> bool:
+    """
+    约束用户的模型定义：
+    1. 模型module中，必须包含 'model.py', 'model_card.py','ray_serve.py' 3个文件，分别为模型结构功能定义、模型静态信息。
+
+    Args:
+        backend: 机器学习框架
+        model_name: 模型的名字
+
+    Returns:
+        检查模型定义是否符合要求
+
+    """
+    model_module_path = os.path.join(root_module_path, backend.value, model_name)
+    logging.debug(f"expect model module in path: {model_module_path}")
+    names = {'model.py', 'model_card.py', 'ray_serve.py'}
+    flag = [1 for file in os.listdir(model_module_path) if file in names]
+    return len(flag) == 3
+
+
+def all_model_cards_cls() -> List:
+    """
+    获取所有 model cards 类列表
+
+    Returns:
+        ModelCard 类列表
+
+    """
+    model_cards = []
+    for root, dirs, files in os.walk(root_module_path):
+        for file in files:
+            if file == 'model_card.py':
+                file_path = os.path.join(root, file)
+                file_relpath = os.path.relpath(file_path, root_module_path)
+                sub_module_name = os.path.splitext(file_relpath)[0].replace('/', '.')
+                model_cards.extend(subclasses_py(f"{_model_root_module_name}.{sub_module_name}", ModelCard))
+    return model_cards
+
+
+def all_model_cards() -> List:
+    """
+    获取所有的 model cards 实例
+    """
+    return [model_card() for model_card in all_model_cards_cls()]
+
+
 from typing import Union, Dict, Optional
 import importlib
 
@@ -25,7 +86,7 @@ def run(task: str,
         ray_actor_options: Optional[Dict] = None,
         **kwargs):
     """部署模型的入口
-    
+
     Args:
         task (str): 要部署的任务类型
         backend (str): 要使用的后端
@@ -37,10 +98,10 @@ def run(task: str,
         autoscaling_config (Dict): serve部署的自动扩缩容配置, 若未提供则使用默认参数
         ray_actor_options (Dict): serve部署中actor的资源配置, 若未提供则使用默认参数
         **kwargs: 其它提供给模型的参数
-    
+
     Returns:
         handle: serve部署的handle
-    
+
     Raises:
         ValueError: 当提供的参数不合法时
         KeyError: 当route_prefix参数未提供时
@@ -108,28 +169,3 @@ def run(task: str,
     handle = serve.run(serve_class.bind(task=task, model=model, **kwargs), route_prefix=route_prefix, name=name,
                        port=port)
     return handle
-
-
-def rand_str():
-    import random
-    import hashlib
-    val = random.randbytes(500)
-    hash_value = hashlib.md5(val)
-    return hash_value.hexdigest()[:6]
-
-
-def camel_to_kebab(camel_str):
-    """
-    驼峰转小写、中划线分隔
-    """
-    kebab_str = ''
-    for i in range(len(camel_str)):
-        if i == 0:
-            kebab_str += camel_str[i].lower()
-        elif camel_str[i].isupper():
-            kebab_str += '-' + camel_str[i].lower()
-        else:
-            kebab_str += camel_str[i]
-    return kebab_str
-
-

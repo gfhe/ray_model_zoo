@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod, abstractproperty
+import json
 import logging
+from abc import ABC, abstractmethod
 from pathlib import Path
-
-from zoo.config import MODEL_DIR
 from typing import Dict, List
+
+from zoo.config import model_dir
 from zoo.constant import Backend, Task
-import inspect
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +86,17 @@ class ModelCard(ABC):
             "models": self.available_models_detail()
         }
 
+    def simple_info(self) -> Dict:
+        return {
+            "name": self.model_name,
+            "default_model": self.default_model(),
+            "task": self.task.value,
+            "backend": self.backend.value,
+        }
+
+    def __str__(self):
+        return json.dumps(self.simple_info())
+
 
 class Model(ABC):
     """
@@ -100,27 +111,19 @@ class Model(ABC):
         """
         pass
 
-    @classmethod
-    @abstractmethod
-    def model_card(cls) -> ModelCard:
-        """
-        模型的信息
-        """
-        raise NotImplementedError
-
-    def __init__(self, detail_model_choice: str = None, **kwargs):
+    def __init__(self, model_card: ModelCard, detail_model_choice: str = None, **kwargs):
         """
         :param detail_model_choice:具体的模型规模的名字
         """
-        self._model_card = Model.model_card()
-        self.detail_model_choice = self._model_card.default_model() if detail_model_choice is None \
+        self.model_card = model_card
+        self.detail_model_choice = self.model_card.default_model() if detail_model_choice is None \
             else detail_model_choice
 
         self.kwargs = kwargs
         self.model_path = self.get_model_path()
 
         # 模型使用的硬件（框架相关，需要在子类中确定）
-        logger.info(f"Using model={self._model_card}, "
+        logger.info(f"Using model={self.model_card}, "
                     f"model_choice={self.detail_model_choice}, "
                     f"model_path={self.model_path}, ")
 
@@ -130,7 +133,7 @@ class Model(ABC):
 
         :ref:`zoo.config.model_dir`
         """
-        return Path(MODEL_DIR) / self._model_card.backend.value / self._model_card.model_name
+        return model_dir / self.model_card.backend.value / self.model_card.model_name
 
 
 class Serve(ABC):

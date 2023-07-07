@@ -3,3 +3,4 @@ cn_clip
 click
 fastapi
 python-multipart
+starlette
