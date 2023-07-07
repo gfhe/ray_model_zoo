@@ -4,3 +4,4 @@ click
 fastapi
 python-multipart
 starlette
+httpx
