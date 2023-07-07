@@ -1,7 +1,6 @@
 import json
 import logging
 from abc import ABC, abstractmethod
-from pathlib import Path
 from typing import Dict, List
 
 from zoo.config import model_dir
@@ -133,7 +132,7 @@ class Model(ABC):
 
         :ref:`zoo.config.model_dir`
         """
-        return model_dir / self.model_card.backend.value / self.model_card.model_name
+        return model_dir / self.model_card.backend.value / self.model_card.model_name / self.detail_model_choice
 
 
 class Serve(ABC):

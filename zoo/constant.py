@@ -12,6 +12,7 @@ class Backend(Enum):
     PYTORCH = "pytorch"
     PADDLE = "paddle"
     TENSORFLOW = "tensorflow"
+    HUGGINGFACE = "huggingface"
 
 
 if __name__ == '__main__':
